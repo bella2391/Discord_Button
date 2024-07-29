@@ -20,10 +20,14 @@ bat = args[6]
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix='>', intents=intents)
-reqchannel = int(os.getenv("REQ_CHANNEL"))
-#reqchannel = int(os.getenv("TEST_CHANNEL"))
 
-        # discord.ui.Button を継承し，callback 関数をオーバーライド
+# 第7引数が与えられていたら、debugモードとみなし、テストチャンネルに送る
+if len(args) > 7:
+    reqchannel = int(os.getenv("TEST_CHANNEL"))
+else:
+    reqchannel = int(os.getenv("REQ_CHANNEL"))
+
+# discord.ui.Button を継承し，callback 関数をオーバーライド
 class YesButton(discord.ui.Button):
     async def callback(self, interaction: discord.Interaction):
         await interaction.message.delete()
